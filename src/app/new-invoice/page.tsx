@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 
 export default function NewInvoicePage() {
-  const [activeStep, setActiveStep] = useState(1);
+  const activeStep: number = 1;
   const [invoiceData, setInvoiceData] = useState({
     tourName: '',
     invoiceNumber: 'INV-225',
