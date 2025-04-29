@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 
 export default function RatesPricingPage() {
-  const [activeStep, setActiveStep] = useState(3);
+  const activeStep: number = 3;
   const [ratesData, setRatesData] = useState({
     basicRate: 1200,
     numberOfRiders: 1,

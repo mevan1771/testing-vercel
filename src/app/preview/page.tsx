@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 
 export default function PreviewPage() {
-  const [activeStep, setActiveStep] = useState(4);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // In a real application, these values would be gathered from a state management system

@@ -22,10 +22,6 @@ export default function NewInvoicePage() {
     });
   };
 
-  const handleNextStep = () => {
-    setActiveStep(activeStep + 1);
-  };
-
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar />
