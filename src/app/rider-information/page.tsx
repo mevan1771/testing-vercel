@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 
 export default function GroupDetailsPage() {
@@ -32,7 +33,7 @@ export default function GroupDetailsPage() {
         <div className="p-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center">
-              <img src="/logo.png" alt="E-Bike Tour Logo" className="h-16 mr-6" />
+              <Image src="/logo.png" alt="E-Bike Tour Logo" width={64} height={64} className="mr-6" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">E-Bike Tour Invoice Generator</h1>
                 <p className="text-gray-600">Create professional invoices for your e-bike tours</p>

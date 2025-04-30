@@ -2,6 +2,7 @@
 
 import { useState, useCallback, ReactNode } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 
 // Types
@@ -221,7 +222,7 @@ export default function RatesPricingPage() {
 
   const addTransportDay = () => {
     const newDay = ratesData.transportOptions.length + 1;
-    const newDate = getNextDate(ratesData.transportOptions[ratesData.transportOptions.length - 1].date);
+    const newDate = getNextDate();
     
     setRatesData(prev => ({
       ...prev,
@@ -236,7 +237,7 @@ export default function RatesPricingPage() {
     const newDay = ratesData.accommodationOptions.length + 1;
     const date = ratesData.accommodationOptions.length === 0 
       ? 'Wed, Apr 30' 
-      : getNextDate(ratesData.accommodationOptions[ratesData.accommodationOptions.length - 1].date);
+      : getNextDate();
     
     setRatesData(prev => ({
       ...prev,
@@ -257,7 +258,7 @@ export default function RatesPricingPage() {
     }
   };
 
-  const getNextDate = (currentDate: string): string => {
+  const getNextDate = (): string => {
     // This is a simple mock function; in a real app you'd use a proper date library
     return 'Thu, May 1';
   };
@@ -271,7 +272,7 @@ export default function RatesPricingPage() {
         <div className="p-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center">
-              <img src="/logo.png" alt="E-Bike Tour Logo" className="h-16 mr-6" />
+              <Image src="/logo.png" alt="E-Bike Tour Logo" width={64} height={64} className="mr-6" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">E-Bike Tour Invoice Generator</h1>
                 <p className="text-gray-600">Create professional invoices for your e-bike tours</p>
@@ -379,7 +380,7 @@ export default function RatesPricingPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 italic">No accommodation days added yet. Click "Add Day" to begin.</p>
+              <p className="text-gray-500 italic">No accommodation days added yet. Click &quot;Add Day&quot; to begin.</p>
             )}
             <div className="text-right text-sm text-gray-600 mt-3">
               Total Accommodation: ${calculator.calculateAccommodationTotal().toFixed(2)}
