@@ -1,17 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function NewInvoicePage() {
   const activeStep: number = 1;
   const [invoiceData, setInvoiceData] = useState({
     tourName: '',
     invoiceNumber: 'INV-225',
-    startDate: '',
-    endDate: '',
-    invoiceDate: '29/04/2025'
+    startDate: null as Date | null,
+    endDate: null as Date | null,
+    invoiceDate: new Date() // Set default to today
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +23,29 @@ export default function NewInvoicePage() {
       [name]: value
     });
   };
+
+  const handleDateChange = (date: Date | null, fieldName: string) => {
+    setInvoiceData({
+      ...invoiceData,
+      [fieldName]: date
+    });
+  };
+
+  // Custom input component for the DatePicker
+  const CustomInput = forwardRef<HTMLInputElement, { value?: string; onClick?: () => void; placeholder?: string }>(
+    ({ value, onClick, placeholder }, ref) => (
+      <input
+        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onClick={onClick}
+        value={value}
+        ref={ref}
+        readOnly
+        placeholder={placeholder}
+      />
+    )
+  );
+  
+  CustomInput.displayName = 'CustomInput';
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -91,59 +116,39 @@ export default function NewInvoicePage() {
             <div className="grid grid-cols-2 gap-6 mt-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="startDate"
-                    placeholder="dd/mm/yyyy"
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={invoiceData.startDate}
-                    onChange={handleChange}
-                  />
-                  <div className="absolute right-2 top-2">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
+                <DatePicker 
+                  selected={invoiceData.startDate}
+                  onChange={(date: Date | null) => handleDateChange(date, 'startDate')}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="dd/mm/yyyy"
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  customInput={<CustomInput placeholder="dd/mm/yyyy" />}
+                />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="endDate"
-                    placeholder="dd/mm/yyyy"
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={invoiceData.endDate}
-                    onChange={handleChange}
-                  />
-                  <div className="absolute right-2 top-2">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
+                <DatePicker 
+                  selected={invoiceData.endDate}
+                  onChange={(date: Date | null) => handleDateChange(date, 'endDate')}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="dd/mm/yyyy"
+                  minDate={invoiceData.startDate || undefined}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  customInput={<CustomInput placeholder="dd/mm/yyyy" />}
+                />
               </div>
             </div>
 
             <div className="mt-4 max-w-md">
               <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="invoiceDate"
-                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={invoiceData.invoiceDate}
-                  onChange={handleChange}
-                />
-                <div className="absolute right-2 top-2">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              </div>
+              <DatePicker 
+                selected={invoiceData.invoiceDate}
+                onChange={(date: Date | null) => handleDateChange(date, 'invoiceDate')}
+                dateFormat="dd/MM/yyyy"
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                customInput={<CustomInput />}
+              />
             </div>
           </div>
 
