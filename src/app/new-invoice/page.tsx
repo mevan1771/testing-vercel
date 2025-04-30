@@ -155,7 +155,7 @@ export default function NewInvoicePage() {
           {/* Next Button */}
           <div className="mt-6 flex justify-end">
             <Link href="/rider-information" className="bg-blue-600 text-white px-6 py-2 rounded flex items-center hover:bg-blue-700 transition-colors">
-              Next: Rider Information
+              Next: Group Details
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
