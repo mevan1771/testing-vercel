@@ -9,9 +9,9 @@ export default function Dashboard() {
       <Sidebar />
       
       <div className="flex-1 overflow-y-auto p-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">E-Bike Tours Dashboard</h1>
-          <p className="text-gray-600">Manage your invoices and customers</p>
+        <header className="mb-8 bg-green-100 p-4 rounded-lg">
+          <h1 className="text-3xl font-bold text-green-800">E-Bike Tours Dashboard</h1>
+          <p className="text-green-600">Manage your invoices and customers</p>
         </header>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
