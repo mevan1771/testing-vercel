@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, forwardRef } from 'react';
-import Link from 'next/link';
-import Sidebar from '@/components/Sidebar';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PageLayout from '@/components/PageLayout';
+import FormSection from '@/components/FormSection';
+import NavButtons from '@/components/NavButtons';
 
 export default function NewInvoicePage() {
-  const activeStep: number = 1;
   const [invoiceData, setInvoiceData] = useState({
     tourName: '',
     invoiceNumber: 'INV-225',
@@ -48,121 +48,78 @@ export default function NewInvoicePage() {
   CustomInput.displayName = 'CustomInput';
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <Sidebar />
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-8">
-          <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
-
-          {/* Progress Steps */}
-          <div className="flex mb-8">
-            <div className={`flex items-center ${activeStep === 1 ? 'text-blue-600' : 'text-gray-500'}`}>
-              <div className={`w-8 h-8 rounded-full ${activeStep === 1 ? 'bg-blue-600' : 'bg-gray-300'} text-white flex items-center justify-center mr-2`}>
-                1
-              </div>
-              <span className="mr-4">Tour Details</span>
-            </div>
-            <div className={`flex items-center ${activeStep === 2 ? 'text-blue-600' : 'text-gray-500'}`}>
-              <div className={`w-8 h-8 rounded-full ${activeStep === 2 ? 'bg-blue-600' : 'bg-gray-300'} text-white flex items-center justify-center mr-2`}>
-                2
-              </div>
-              <span className="mr-4">Rider Info</span>
-            </div>
-            <div className={`flex items-center ${activeStep === 3 ? 'text-blue-600' : 'text-gray-500'}`}>
-              <div className={`w-8 h-8 rounded-full ${activeStep === 3 ? 'bg-blue-600' : 'bg-gray-300'} text-white flex items-center justify-center mr-2`}>
-                3
-              </div>
-              <span className="mr-4">Rates</span>
-            </div>
-            <div className={`flex items-center ${activeStep === 4 ? 'text-blue-600' : 'text-gray-500'}`}>
-              <div className={`w-8 h-8 rounded-full ${activeStep === 4 ? 'bg-blue-600' : 'bg-gray-300'} text-white flex items-center justify-center mr-2`}>
-                4
-              </div>
-              <span>Preview</span>
-            </div>
+    <PageLayout activeStep={1}>
+      <FormSection title="Tour Information">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tour Name</label>
+            <input
+              type="text"
+              name="tourName"
+              placeholder="E.g. Tanzania E-Bike Adventure"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={invoiceData.tourName}
+              onChange={handleChange}
+            />
           </div>
-
-          {/* Tour Information Form */}
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h2 className="text-lg font-bold mb-4">Tour Information</h2>
-            
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tour Name</label>
-                <input
-                  type="text"
-                  name="tourName"
-                  placeholder="E.g. Tanzania E-Bike Adventure"
-                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={invoiceData.tourName}
-                  onChange={handleChange}
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Number</label>
-                <input
-                  type="text"
-                  name="invoiceNumber"
-                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={invoiceData.invoiceNumber}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-6 mt-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                <DatePicker 
-                  selected={invoiceData.startDate}
-                  onChange={(date: Date | null) => handleDateChange(date, 'startDate')}
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="dd/mm/yyyy"
-                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  customInput={<CustomInput placeholder="dd/mm/yyyy" />}
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                <DatePicker 
-                  selected={invoiceData.endDate}
-                  onChange={(date: Date | null) => handleDateChange(date, 'endDate')}
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="dd/mm/yyyy"
-                  minDate={invoiceData.startDate || undefined}
-                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  customInput={<CustomInput placeholder="dd/mm/yyyy" />}
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 max-w-md">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
-              <DatePicker 
-                selected={invoiceData.invoiceDate}
-                onChange={(date: Date | null) => handleDateChange(date, 'invoiceDate')}
-                dateFormat="dd/MM/yyyy"
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                customInput={<CustomInput />}
-              />
-            </div>
-          </div>
-
-          {/* Next Button */}
-          <div className="mt-6 flex justify-end">
-            <Link href="/rider-information" className="bg-blue-600 text-white px-6 py-2 rounded flex items-center hover:bg-blue-700 transition-colors">
-              Next: Group Details
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Number</label>
+            <input
+              type="text"
+              name="invoiceNumber"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={invoiceData.invoiceNumber}
+              onChange={handleChange}
+            />
           </div>
         </div>
-      </div>
-    </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+            <DatePicker 
+              selected={invoiceData.startDate}
+              onChange={(date: Date | null) => handleDateChange(date, 'startDate')}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd/mm/yyyy"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              customInput={<CustomInput placeholder="dd/mm/yyyy" />}
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+            <DatePicker 
+              selected={invoiceData.endDate}
+              onChange={(date: Date | null) => handleDateChange(date, 'endDate')}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd/mm/yyyy"
+              minDate={invoiceData.startDate || undefined}
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              customInput={<CustomInput placeholder="dd/mm/yyyy" />}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
+            <DatePicker 
+              selected={invoiceData.invoiceDate}
+              onChange={(date: Date | null) => handleDateChange(date, 'invoiceDate')}
+              dateFormat="dd/MM/yyyy"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              customInput={<CustomInput />}
+            />
+          </div>
+        </div>
+      </FormSection>
+
+      <NavButtons 
+        backLink="/"
+        backText="Cancel"
+        nextLink="/rider-information"
+        nextText="Next: Group Details"
+      />
+    </PageLayout>
   );
 } 
